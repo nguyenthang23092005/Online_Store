@@ -1,43 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Quản lý</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="{{ url('/css/app.css') }}">
-</head>
-<body class="bg-gray-100">
-
-<div id="dashboard" class="section p-6">
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Dashboard Tổng quan</h2>
-        <p class="text-gray-600">Chào mừng bạn đến với hệ thống quản lý</p>
-    </div>
-
-    <!-- Thống kê tổng quan -->
-    <div id="stats-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"></div>
-
-    <!-- Đơn hàng gần đây & Cảnh báo tồn kho -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Đơn hàng gần đây -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold mb-4">Đơn hàng gần đây</h3>
-            <div id="recent-orders" class="space-y-3"></div>
-        </div>
-
-        <!-- Cảnh báo tồn kho -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold mb-4">Cảnh báo tồn kho</h3>
-            <div id="stock-alerts" class="space-y-3"></div>
-        </div>
-    </div>
-</div>
-
-<!-- JS nội tuyến -->
-<script>
 // Dữ liệu mẫu
 const stats = [
     { title: "Tổng đơn hàng", value: "1,234", icon: "fa-shopping-cart", card: "stats-card" },
@@ -109,7 +69,3 @@ document.addEventListener("DOMContentLoaded", () => {
     renderOrders();
     renderStockAlerts();
 });
-</script>
-
-</body>
-</html>

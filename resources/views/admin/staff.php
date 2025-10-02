@@ -28,7 +28,7 @@
                         <i class="fas fa-crown text-purple-600"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-gray-800">2</p>
+                        <p id="adminCount" class="text-2xl font-bold text-gray-800">0</p>
                         <p class="text-sm text-gray-600">Admin</p>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                         <i class="fas fa-shopping-cart text-blue-600"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-gray-800">5</p>
+                        <p id="orderCount" class="text-2xl font-bold text-gray-800">0</p>
                         <p class="text-sm text-gray-600">Order Manager</p>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         <i class="fas fa-warehouse text-green-600"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-gray-800">3</p>
+                        <p id="storekeeperCount" class="text-2xl font-bold text-gray-800">0</p>
                         <p class="text-sm text-gray-600">Storekeeper</p>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                         <i class="fas fa-headset text-yellow-600"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-gray-800">8</p>
+                        <p id="supportCount" class="text-2xl font-bold text-gray-800">0</p>
                         <p class="text-sm text-gray-600">Support Staff</p>
                     </div>
                 </div>
@@ -74,17 +74,17 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
                     <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
                         <div class="relative">
-                            <input type="text" placeholder="Tìm kiếm nhân viên..." class="pl-10 pr-4 py-2 border rounded-lg w-full md:w-64" id="staffSearch">
+                            <input type="text" placeholder="Tìm kiếm nhân viên..." class="pl-10 pr-4 py-2 border rounded-lg w-full md:w-64" id="staffSearch" oninput="filterStaff()">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                         </div>
-                        <select class="border rounded-lg px-4 py-2" id="roleFilter">
+                        <select class="border rounded-lg px-4 py-2" id="roleFilter" onchange="filterStaff()">
                             <option value="">Tất cả chức vụ</option>
-                            <option value="admin">Admin</option>
-                            <option value="order-manager">Order Manager</option>
-                            <option value="storekeeper">Storekeeper</option>
-                            <option value="support">Support Staff</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Order Manager">Order Manager</option>
+                            <option value="Storekeeper">Storekeeper</option>
+                            <option value="Support Staff">Support Staff</option>
                         </select>
-                        <select class="border rounded-lg px-4 py-2" id="statusFilter">
+                        <select class="border rounded-lg px-4 py-2" id="statusFilter" onchange="filterStaff()">
                             <option value="">Tất cả trạng thái</option>
                             <option value="active">Hoạt động</option>
                             <option value="inactive">Không hoạt động</option>
@@ -105,9 +105,6 @@
                 <table class="w-full" id="staffTable">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                <input type="checkbox" class="rounded" id="selectAll">
-                            </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nhân viên</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Chức vụ</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
@@ -115,37 +112,103 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" class="rounded"></td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23e0e0e0'/%3E%3Ctext x='16' y='21' text-anchor='middle' fill='%23616161' font-family='Arial' font-size='14' font-weight='bold'%3EA%3C/text%3E%3C/svg%3E" alt="">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Nguyễn Văn A</div>
-                                        <div class="text-sm text-gray-500">ID: #NV001</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Admin</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> Hoạt động </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div class="flex items-center space-x-2">
-                                    <i class="fas fa-envelope text-gray-400"></i>
-                                    <span class="text-gray-600">a.nguyen@email.com</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-indigo-600 hover:text-indigo-900">Sửa</button>
-                                <button class="text-red-600 hover:text-red-900 ml-4">Xóa</button>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="staffBody" class="divide-y divide-gray-200"></tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <script>
+    // Dữ liệu nhân viên mẫu
+    let staffList = [
+        { id: "#NV001", name: "Nguyễn Văn A", role: "Admin", status: "active", email: "a.nguyen@email.com" },
+        { id: "#NV002", name: "Trần Thị B", role: "Support Staff", status: "inactive", email: "b.tran@email.com" },
+        { id: "#NV003", name: "Phạm Văn C", role: "Order Manager", status: "active", email: "c.pham@email.com" }
+    ];
+
+    // Render danh sách nhân viên
+    function renderStaff(list = staffList) {
+        const tbody = document.getElementById("staffBody");
+        tbody.innerHTML = "";
+
+        list.forEach(staff => {
+            let statusClass = staff.status === "active" ? "bg-green-100 text-green-800"
+                            : staff.status === "inactive" ? "bg-gray-200 text-gray-600"
+                            : "bg-yellow-100 text-yellow-800";
+
+            tbody.innerHTML += `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=${encodeURIComponent(staff.name)}" alt="">
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${staff.name}</div>
+                                <div class="text-sm text-gray-500">ID: ${staff.id}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${staff.role}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                            ${staff.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${staff.email}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="text-indigo-600 hover:text-indigo-900" onclick="editStaff('${staff.id}')">Sửa</button>
+                        <button class="text-red-600 hover:text-red-900 ml-4" onclick="deleteStaff('${staff.id}')">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        updateRoleCount();
+    }
+
+    // Thêm nhân viên
+    function openAddStaffModal() {
+        alert("Mở form thêm nhân viên (chưa code modal).");
+    }
+
+    // Sửa nhân viên
+    function editStaff(id) {
+        alert("Sửa nhân viên: " + id);
+    }
+
+    // Xóa nhân viên
+    function deleteStaff(id) {
+        if (confirm("Bạn có chắc muốn xóa nhân viên " + id + " không?")) {
+            staffList = staffList.filter(s => s.id !== id);
+            renderStaff();
+        }
+    }
+
+    // Bộ lọc
+    function filterStaff() {
+        let search = document.getElementById("staffSearch").value.toLowerCase();
+        let role = document.getElementById("roleFilter").value;
+        let status = document.getElementById("statusFilter").value;
+
+        let filtered = staffList.filter(s => 
+            s.name.toLowerCase().includes(search) &&
+            (role === "" || s.role === role) &&
+            (status === "" || s.status === status)
+        );
+
+        renderStaff(filtered);
+    }
+
+    // Cập nhật số lượng theo chức vụ
+    function updateRoleCount() {
+        document.getElementById("adminCount").innerText = staffList.filter(s => s.role === "Admin").length;
+        document.getElementById("orderCount").innerText = staffList.filter(s => s.role === "Order Manager").length;
+        document.getElementById("storekeeperCount").innerText = staffList.filter(s => s.role === "Storekeeper").length;
+        document.getElementById("supportCount").innerText = staffList.filter(s => s.role === "Support Staff").length;
+    }
+
+    // Load khi mở trang
+    document.addEventListener("DOMContentLoaded", renderStaff);
+    </script>
 </body>
 </html>
+

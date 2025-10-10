@@ -117,7 +117,10 @@ Route::get('/b', function () {
     return view('customer.t');      // resources/views/admin/home.blade.php
 });
 Route::get('/c', function () {
-    return view('customer.a');      // resources/views/admin/home.blade.php
+    return view('customer1.a');      // resources/views/admin/home.blade.php
+});
+Route::get('/d', function () {
+    return view('customer1.b');      // resources/views/admin/home.blade.php
 });
 Route::get('/css/app.css', function () {
     $path = resource_path('css/app.css');

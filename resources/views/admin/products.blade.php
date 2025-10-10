@@ -6,6 +6,7 @@
     <title>Danh sách sản phẩm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
     <div id="products" class="section">
@@ -16,9 +17,17 @@
                     <h2 class="text-2xl font-bold text-gray-800">Danh sách sản phẩm</h2>
                     <p class="text-gray-600 mt-1">Quản lý và cập nhật thông tin sản phẩm</p>
                 </div>
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200" onclick="openProductModal()">
-                    <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
-                </button>
+                <div class="flex space-x-2">
+                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200" onclick="exportExcel()">
+                        <i class="fas fa-file-excel mr-2"></i>Xuất Excel
+                    </button>
+                    <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200" onclick="printProducts()">
+                        <i class="fas fa-print mr-2"></i>In
+                    </button>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200" onclick="openProductModal()">
+                        <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
+                    </button>
+                </div>
             </div>
 
             <!-- Bộ lọc & tìm kiếm -->
@@ -98,7 +107,7 @@
         list.forEach((p, index) => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td class="px-4 py-2">${p.name}</td>
+                <td class="px-4 py-2 font-bold">${p.name}</td>
                 <td class="px-4 py-2">${p.sku}</td>
                 <td class="px-4 py-2 capitalize">${p.category}</td>
                 <td class="px-4 py-2">${p.stock}</td>
@@ -134,7 +143,6 @@
         document.getElementById("edit-index").value = "";
     }
 
-    // Thêm hoặc lưu sửa
     function saveProduct(e) {
         e.preventDefault();
         const index = document.getElementById("edit-index").value;
@@ -146,19 +154,13 @@
             price: parseInt(document.getElementById("product-price").value),
         };
 
-        if (index === "") {
-            // Thêm mới
-            products.push(newProduct);
-        } else {
-            // Sửa
-            products[index] = newProduct;
-        }
+        if (index === "") products.push(newProduct);
+        else products[index] = newProduct;
 
         renderProducts();
         closeProductModal();
     }
 
-    // Sửa sản phẩm
     function editProduct(index) {
         const p = products[index];
         document.getElementById("product-name").value = p.name;
@@ -170,7 +172,6 @@
         openProductModal(true);
     }
 
-    // Xóa sản phẩm
     function deleteProduct(index) {
         if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
             products.splice(index, 1);
@@ -178,8 +179,45 @@
         }
     }
 
+    // Xuất Excel
+    function exportExcel() {
+        const ws_data = [["Tên sản phẩm","SKU","Danh mục","Tồn kho","Giá bán"]];
+        products.forEach(p => ws_data.push([p.name,p.sku,p.category,p.stock,p.price]));
+        const ws = XLSX.utils.aoa_to_sheet(ws_data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sản phẩm");
+        XLSX.writeFile(wb, "san_pham.xlsx");
+    }
+
+    // In danh sách sản phẩm (tên sản phẩm in đậm)
+    function printProducts() {
+        let html = `<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%">
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>SKU</th>
+                <th>Danh mục</th>
+                <th>Tồn kho</th>
+                <th>Giá bán</th>
+            </tr>`;
+        products.forEach(p => {
+            html += `<tr>
+                <td><b>${p.name}</b></td>
+                <td>${p.sku}</td>
+                <td>${p.category}</td>
+                <td>${p.stock}</td>
+                <td>₫${p.price.toLocaleString()}</td>
+            </tr>`;
+        });
+        html += `</table>`;
+        const printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>In danh sách sản phẩm</title></head><body>');
+        printWindow.document.write(html);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
     renderProducts();
     </script>
 </body>
 </html>
-

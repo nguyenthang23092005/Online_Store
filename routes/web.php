@@ -74,11 +74,50 @@ Route::prefix('auth')->name('auth.')->group(function () {
 });
 
 
+Route::prefix('customer')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('customer.dashboard');
 
+    Route::get('/cart', function () {
+        return view('cart');
+    })->name('customer.cart');
+
+    Route::get('/home', function () {
+        return view('home');
+    })->name('customer.home');
+
+    Route::get('/orders', function () {
+        return view('order');
+    })->name('customer.orders');
+
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('customer.profile');
+
+    Route::get('/promotion', function () {
+        return view('promotion');
+    })->name('customer.promotion');
+
+    Route::get('/review', function () {
+        return view('review');
+    })->name('customer.review');
+
+    Route::get('/store', function () {
+        return view('store');
+    })->name('customer.store');
+
+    Route::get('/support', function () {
+        return view('support');
+    })->name('customer.support');
+});
 
 
 Route::get('/b', function () {
-    return view('admin.t');      // resources/views/admin/home.blade.php
+    return view('customer.t');      // resources/views/admin/home.blade.php
+});
+Route::get('/c', function () {
+    return view('customer.a');      // resources/views/admin/home.blade.php
 });
 Route::get('/css/app.css', function () {
     $path = resource_path('css/app.css');
